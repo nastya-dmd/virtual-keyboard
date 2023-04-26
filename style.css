@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+.body {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  color: rgba(94, 67, 41, 0.877);
+  background-image: url(img.jpg);
+  background-position: 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.header,
+.main {
+  width: 100%;
+  padding-top: 40px;
+}
+
+h2,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.logo-container,
+.section {
+  margin: 0 auto;
+  max-width: 80rem;
+}
+
+.logo {
+  margin-top: 0;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.input-text {
+  width: 100%;
+  height: 200px;
+  box-sizing: border-box;
+  border: 2px solid #b4c9cc;
+  border-radius: 10px;
+  background-color: rgb(248 248 248 / 75%);
+  font-size: 16px;
+  resize: none;
+  outline: none;
+}
+
+.input-text:focus {
+  border-color: rgba(134, 98, 64, 0.445);
+}
+
+.keyboard {
+  display: flex;
+  gap: 10px;
+}
+
+.key,
+.key-rectangle {
+  height: 50px;
+  font-weight: 700;
+  background-color: #b4c9cc;
+  border: solid #93a4a7 1px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.key {
+  min-width: 50px;
+}
+
+.key-rectangle {
+  min-width: 100px;
+}

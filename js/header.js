@@ -1,10 +1,8 @@
-"use strict"
-
 import { createHtmlElement } from "./html-elements.js"
 
 export const createHeader = () => {
   const header = createHtmlElement("header", "header", document.body, false);
- 
+
   const logoContainer = createHtmlElement("div", "logo-container", header, false);
 
   const logo = createHtmlElement("h1", "logo", logoContainer, false);

@@ -10,9 +10,14 @@ export const createKeyboard = () => {
   const keysArr = keyLayout.map((keyObj) => {
     const element = createHtmlElement('div', 'key', sectionKeyboard, false);
     element.textContent = keyObj.mainKey;
+    if (element.textContent.length > 4) {
+      element.classList.add('key-rectangle')
+    } else if (element.textContent.length === 0) {
+      element.classList.add('key-space')
+    }
     element.setAttribute('code', keyObj.keyCode);
 
-    return new Key(element, keyObj.keyCode, keyObj.mainKey, keyObj.secondaryKey, keyObj.keyOutput);
+    return new Key(element, keyObj.keyCode, keyObj.mainKey, keyObj.secondaryKey, keyObj.keyOutput, keyObj.mainSymbol);
   })
   return keysArr;
 };

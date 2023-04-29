@@ -1,5 +1,3 @@
-import { keyLayout } from './data/keyboard.data.en.js';
-
 export const workKeyboard = (keyButtons) => {
   const textarea = document.querySelector('.input-text');
   let shiftPressed = false;
@@ -14,31 +12,49 @@ export const workKeyboard = (keyButtons) => {
     return keyPressed;
   };
 
-  const addActiveClass = (codeBtn) => {
+  const addActiveClass = (codeBtn, classValue) => {
     const button = getButton(codeBtn);
-    button.htmlNode.classList.add('key-active')
+    button.htmlNode.classList.add(classValue);
   };
 
-  const removeActiveClass = (codeBtn) => {
+  const removeActiveClass = (codeBtn, classValue) => {
     const button = getButton(codeBtn);
-    button.htmlNode.classList.remove('key-active')
+    button.htmlNode.classList.remove(classValue)
   };
 
   const outputKeyButton = (codeBtn) => {
     const button = getButton(codeBtn);
+
+    const cursorPosition = textarea.selectionStart;
+    const leftTextPart = textarea.value.slice(0, cursorPosition);
+    const rightTextPart = textarea.value.slice(cursorPosition);
+
     if (button.keyOutput) {
-
+      let textToAdd = '';
       if (shiftPressed || capsLok) {
-        textarea.value += button.secondaryKey;
-
+        if (shiftPressed && capsLok) {
+          textToAdd = button.mainKey;
+        } else {
+          if (button.mainSymbol && capsLok) {
+            textToAdd = button.mainKey;
+          } else {
+            textToAdd = button.secondaryKey;
+          }
+        }
       } else {
-        textarea.value += button.mainKey;
+        textToAdd = button.mainKey;
       }
 
-      textarea.selectionStart = textarea.value.length;
+      textarea.value = `${leftTextPart}${textToAdd}${rightTextPart}`
+      textarea.selectionStart = cursorPosition + 1;
+      textarea.selectionEnd = cursorPosition + 1;
     } else {
       if (codeBtn === 'Backspace') {
-        textarea.value = textarea.value.slice(0, textarea.value.length - 1);
+        if (leftTextPart.length > 0) {
+          textarea.value = `${leftTextPart.slice(0, leftTextPart.length - 1)}${rightTextPart}`;
+          textarea.selectionStart = cursorPosition - 1;
+          textarea.selectionEnd = cursorPosition - 1;
+        }
       }
 
       if (codeBtn === 'Enter') {
@@ -52,19 +68,20 @@ export const workKeyboard = (keyButtons) => {
       if (codeBtn === 'Space') {
         textarea.value += ' '
       }
-
-      // todo
-      // обработать shift, capsLok
+      if (codeBtn === 'Delete') {
+        textarea.value = `${leftTextPart}${rightTextPart.slice(1)}`;
+          textarea.selectionStart = cursorPosition;
+          textarea.selectionEnd = cursorPosition;
+      }
     }
   };
 
   window.addEventListener('keydown', (event) => {
-    console.log(event)
     if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
       shiftPressed = true;
     }
 
-    addActiveClass(event.code)
+    addActiveClass(event.code, 'key-active')
     event.preventDefault();
     textarea.focus();
     outputKeyButton(event.code);
@@ -74,12 +91,16 @@ export const workKeyboard = (keyButtons) => {
     if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
       shiftPressed = false;
     }
-    if (event.code === "CapsLock" && capsLok === false) {
-      capsLok = true;
-    } else if (event.code === "CapsLock" && capsLok) {
-      capsLok = false;
+
+    if (event.code === "CapsLock") {
+      capsLok = !capsLok;
+      if (capsLok) {
+        addActiveClass(event.code, 'key-caps-lk');
+      } else {
+        removeActiveClass(event.code, 'key-caps-lk');
+      }
     }
-    removeActiveClass(event.code)
+    removeActiveClass(event.code, 'key-active');
   });
 
   const buttons = document.querySelectorAll('[code]');
@@ -91,7 +112,15 @@ export const workKeyboard = (keyButtons) => {
       outputKeyButton(codeBtn);
     });
 
-    el.addEventListener('mouseup', () => {
+    el.addEventListener('mouseup', (event) => {
+      if (event.target.innerText === "CapsLock") {
+        capsLok = !capsLok;
+        if (capsLok) {
+          event.target.classList.add('key-caps-lk');
+        } else {
+          event.target.classList.remove('key-caps-lk');
+        }
+      }
       el.classList.remove('key-active');
     });
   });

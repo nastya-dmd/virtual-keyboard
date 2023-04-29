@@ -1,32 +1,50 @@
 export const keyLayout = [
   {
-    "mainKey":"a",
-    "secondaryKey":"A",
+    "mainKey": "a",
+    "secondaryKey": "A",
     "keyCode": "KeyA",
-    "keyOutput" : 'true'
+    "keyOutput": true
   },
   {
-    "mainKey":"1",
-    "secondaryKey":"!",
+    "mainKey": "1",
+    "secondaryKey": "!",
     "keyCode": "Digit1",
-    "keyOutput" : 'true'
+    "keyOutput": true
   },
   {
-    "mainKey":"Shift",
-    "secondaryKey":"Shift",
+    "mainKey": "Shift",
+    "secondaryKey": "Shift",
     "keyCode": "ShiftLeft",
-    "keyOutput" : 'false'
+    "keyOutput": false
   },
   {
-    "mainKey":"Backspace",
-    "secondaryKey":"Backspace",
+    "mainKey": "Backspace",
+    "secondaryKey": "Backspace",
     "keyCode": "Backspace",
-    "keyOutput" : 'false'
+    "keyOutput": false
   },
   {
-    "mainKey":"CapsLock",
-    "secondaryKey":"CapsLock",
+    "mainKey": "Enter",
+    "secondaryKey": "Enter",
+    "keyCode": "Enter",
+    "keyOutput": false
+  },
+  {
+    "mainKey": "CapsLock",
+    "secondaryKey": "CapsLock",
     "keyCode": "CapsLock",
-    "keyOutput" : 'false'
+    "keyOutput": false
+  },
+  {
+    "mainKey": "Tab",
+    "secondaryKey": "Tab",
+    "keyCode": "Tab",
+    "keyOutput": false
+  },
+  {
+    "mainKey": "Space",
+    "secondaryKey": "Space",
+    "keyCode": "Space",
+    "keyOutput": false
   }
 ]

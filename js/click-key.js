@@ -2,6 +2,8 @@ import { keyLayout } from './data/keyboard.data.en.js';
 
 export const workKeyboard = (keyButtons) => {
   const textarea = document.querySelector('.input-text');
+  let shiftPressed = false;
+  let capsLok = false;
 
   const getButton = (codeBtn) => {
     const keyPressed = keyButtons.find((el) => {
@@ -24,48 +26,59 @@ export const workKeyboard = (keyButtons) => {
 
   const outputKeyButton = (codeBtn) => {
     const button = getButton(codeBtn);
-    if (button.keyOutput === 'true') {
-      textarea.innerHTML += button.mainKey;
-      textarea.selectionStart = textarea.textContent.length;
+    if (button.keyOutput) {
+
+      if (shiftPressed || capsLok) {
+        textarea.value += button.secondaryKey;
+
+      } else {
+        textarea.value += button.mainKey;
+      }
+
+      textarea.selectionStart = textarea.value.length;
     } else {
-      return false
+      if (codeBtn === 'Backspace') {
+        textarea.value = textarea.value.slice(0, textarea.value.length - 1);
+      }
+
+      if (codeBtn === 'Enter') {
+        textarea.value += '\n'
+      }
+
+      if (codeBtn === 'Tab') {
+        textarea.value += '\t'
+      }
+
+      if (codeBtn === 'Space') {
+        textarea.value += ' '
+      }
+
+      // todo
+      // обработать shift, capsLok
     }
   };
 
   window.addEventListener('keydown', (event) => {
     console.log(event)
+    if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
+      shiftPressed = true;
+    }
+
     addActiveClass(event.code)
     event.preventDefault();
     textarea.focus();
-    // outputKeyButton(event.code);
-
-    let arr = [];
-    const active = document.querySelectorAll('.key-active');
-    if (active.length === 2) {
-      active.forEach(el => {
-        const code = el.getAttribute('code')
-        arr.push(code)
-      })
-      console.log(arr)
-      if (arr.includes('ShiftLeft') || arr.includes('ShiftRight')) {
-        const button = getButton(event.code);
-
-        if (button.keyCode === arr[0]) {
-          textarea.innerHTML += button.secondaryKey;
-          textarea.selectionStart = textarea.textContent.length;
-        }
-      }
-    } else {
-      if (event.code === 'Backspace') {
-        textarea.value = textarea.value.slice(0, textarea.value.length - 1);
-      }
-      outputKeyButton(event.code);
-    }
-
+    outputKeyButton(event.code);
   });
 
   window.addEventListener('keyup', (event) => {
-    const codeButton = document.querySelector(`[code="${event.code}"]`);
+    if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
+      shiftPressed = false;
+    }
+    if (event.code === "CapsLock" && capsLok === false) {
+      capsLok = true;
+    } else if (event.code === "CapsLock" && capsLok) {
+      capsLok = false;
+    }
     removeActiveClass(event.code)
   });
 

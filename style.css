@@ -94,14 +94,19 @@ p {
 
 .key {
   min-width: 60px;
+  transition: .3s;
+}
+
+.key:hover {
+  border-color: #e9c58e;
 }
 
 @media (max-width: 1131px) {
 
   .key {
-   min-width: 55px;
+    min-width: 55px;
   }
-  
+
 }
 
 .key-rectangle {
@@ -115,6 +120,6 @@ p {
 .key-active,
 .key-caps-lk {
   background-color: #e9c58e;
-  /* transition: .3s; */
-  /* transform: scale(.9) */
+  transition: .3s;
+  transform: scale(.9)
 }

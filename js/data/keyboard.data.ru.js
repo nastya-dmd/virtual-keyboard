@@ -4,7 +4,7 @@ export const keyLayoutRu = [
     secondaryKey: 'Ё',
     keyCode: 'Backquote',
     keyOutput: true,
-    mainEl: true,
+    mainEl: false,
   },
   {
     mainKey: '1',

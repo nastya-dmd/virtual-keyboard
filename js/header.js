@@ -11,5 +11,5 @@ export const createHeader = () => {
 
   logo.textContent = 'Virtual Keyboard';
   info.textContent = 'A virtual keyboard was created in the Windows OS';
-  langSwitchInfo.textContent = 'Left Ctrl + Shift switch language';
+  langSwitchInfo.textContent = 'Left Ctrl + Left Alt switch language';
 };

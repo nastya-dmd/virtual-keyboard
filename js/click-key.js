@@ -1,7 +1,12 @@
-export const workKeyboard = (keyButtons) => {
+import { keyLayoutRu } from './data/keyboard.data.ru.js';
+import { keyLayoutEn } from './data/keyboard.data.en.js';
+
+export const workKeyboard = (keyButtons, language) => {
   const textarea = document.querySelector('.input-text');
   let shiftPressed = false;
   let capsLok = false;
+  let ctrlPressed = false;
+  let lang = language;
 
   const getButton = (codeBtn) => {
     const keyPressed = keyButtons.find((el) => {
@@ -11,6 +16,32 @@ export const workKeyboard = (keyButtons) => {
     })
     return keyPressed;
   };
+
+  const switchLang = () => {
+    if (!lang || lang === 'en') {
+      lang = 'ru'
+    } else {
+      lang = 'en'
+    }
+    let langButtonsData = keyLayoutEn;
+    if (lang === 'ru') {
+      langButtonsData = keyLayoutRu;
+    } else if (lang === 'en') {
+      langButtonsData = keyLayoutEn;
+    }
+
+    langButtonsData.forEach((btnData) => {
+      const keyboardButton = getButton(btnData.keyCode);
+      keyboardButton.mainKey = btnData.mainKey;
+      keyboardButton.secondaryKey = btnData.secondaryKey
+      keyboardButton.htmlNode.innerHTML = btnData.mainKey;
+    })
+  }
+
+  const setLocalStorage = () => {
+    localStorage.setItem('lang', lang);
+  }
+  window.addEventListener('beforeunload', setLocalStorage);
 
   const addActiveClass = (codeBtn, classValue) => {
     const button = getButton(codeBtn);
@@ -70,15 +101,20 @@ export const workKeyboard = (keyButtons) => {
       }
       if (codeBtn === 'Delete') {
         textarea.value = `${leftTextPart}${rightTextPart.slice(1)}`;
-          textarea.selectionStart = cursorPosition;
-          textarea.selectionEnd = cursorPosition;
+        textarea.selectionStart = cursorPosition;
+        textarea.selectionEnd = cursorPosition;
       }
+
     }
   };
 
   window.addEventListener('keydown', (event) => {
     if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
       shiftPressed = true;
+    }
+
+    if (event.code === 'ControlLeft') {
+      ctrlPressed = true;
     }
 
     addActiveClass(event.code, 'key-active')
@@ -100,6 +136,15 @@ export const workKeyboard = (keyButtons) => {
         removeActiveClass(event.code, 'key-caps-lk');
       }
     }
+
+    if (event.code === 'AltLeft' && ctrlPressed) {
+      switchLang();
+    }
+
+    if (event.code === 'ControlLeft') {
+      ctrlPressed = false;
+    }
+
     removeActiveClass(event.code, 'key-active');
   });
 
@@ -125,3 +170,5 @@ export const workKeyboard = (keyButtons) => {
     });
   });
 };
+
+

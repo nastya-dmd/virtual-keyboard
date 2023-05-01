@@ -9,14 +9,10 @@ const initKeyboardApplication = () => {
   createHeader();
   createHtmlElement('main', 'main', document.body, false);
     createTextarea();
-    const keyBtns = createKeyboard();
-    workKeyboard(keyBtns);
-  // const keyboard = new Keyboard();
-  
+    const language = localStorage.getItem('lang');
+    
+    const keyBtns = createKeyboard(language);
+    workKeyboard(keyBtns, language);
 };
 
 initKeyboardApplication();
-
-// class Keyboard {
-  
-// }

@@ -1,4 +1,4 @@
-export const keyLayout = [
+export const keyLayoutEn = [
   {
     "mainKey": "`",
     "secondaryKey": "~",

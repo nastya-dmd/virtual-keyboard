@@ -11,5 +11,10 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    'import/extensions': [
+      'error', 'ignorePackages',
+    ],
+    'import/prefer-default-export': 'off',
   },
+
 };

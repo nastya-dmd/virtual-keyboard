@@ -8,11 +8,11 @@ const initKeyboardApplication = () => {
   document.body.classList.add('body');
   createHeader();
   createHtmlElement('main', 'main', document.body, false);
-    createTextarea();
-    const language = localStorage.getItem('lang');
-    
-    const keyBtns = createKeyboard(language);
-    workKeyboard(keyBtns, language);
+  createTextarea();
+  const language = localStorage.getItem('lang');
+
+  const keyBtns = createKeyboard(language);
+  workKeyboard(keyBtns, language);
 };
 
 initKeyboardApplication();

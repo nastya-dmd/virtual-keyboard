@@ -9,19 +9,15 @@ export const workKeyboard = (keyButtons, language) => {
   let lang = language;
 
   const getButton = (codeBtn) => {
-    const keyPressed = keyButtons.find((el) => {
-      if (el.keyCode === codeBtn) {
-        return el;
-      }
-    })
+    const keyPressed = keyButtons.find((el) => el.keyCode === codeBtn);
     return keyPressed;
   };
 
   const switchLang = () => {
     if (!lang || lang === 'en') {
-      lang = 'ru'
+      lang = 'ru';
     } else {
-      lang = 'en'
+      lang = 'en';
     }
     let langButtonsData = keyLayoutEn;
     if (lang === 'ru') {
@@ -33,14 +29,14 @@ export const workKeyboard = (keyButtons, language) => {
     langButtonsData.forEach((btnData) => {
       const keyboardButton = getButton(btnData.keyCode);
       keyboardButton.mainKey = btnData.mainKey;
-      keyboardButton.secondaryKey = btnData.secondaryKey
+      keyboardButton.secondaryKey = btnData.secondaryKey;
       keyboardButton.htmlNode.innerHTML = btnData.mainKey;
-    })
-  }
+    });
+  };
 
   const setLocalStorage = () => {
     localStorage.setItem('lang', lang);
-  }
+  };
   window.addEventListener('beforeunload', setLocalStorage);
 
   const addActiveClass = (codeBtn, classValue) => {
@@ -50,7 +46,7 @@ export const workKeyboard = (keyButtons, language) => {
 
   const removeActiveClass = (codeBtn, classValue) => {
     const button = getButton(codeBtn);
-    button.htmlNode.classList.remove(classValue)
+    button.htmlNode.classList.remove(classValue);
   };
 
   const outputKeyButton = (codeBtn) => {
@@ -65,18 +61,16 @@ export const workKeyboard = (keyButtons, language) => {
       if (shiftPressed || capsLok) {
         if (shiftPressed && capsLok) {
           textToAdd = button.mainKey;
+        } else if (button.mainEl && capsLok) {
+          textToAdd = button.mainKey;
         } else {
-          if (button.mainSymbol && capsLok) {
-            textToAdd = button.mainKey;
-          } else {
-            textToAdd = button.secondaryKey;
-          }
+          textToAdd = button.secondaryKey;
         }
       } else {
         textToAdd = button.mainKey;
       }
 
-      textarea.value = `${leftTextPart}${textToAdd}${rightTextPart}`
+      textarea.value = `${leftTextPart}${textToAdd}${rightTextPart}`;
       textarea.selectionStart = cursorPosition + 1;
       textarea.selectionEnd = cursorPosition + 1;
     } else {
@@ -89,27 +83,26 @@ export const workKeyboard = (keyButtons, language) => {
       }
 
       if (codeBtn === 'Enter') {
-        textarea.value += '\n'
+        textarea.value += '\n';
       }
 
       if (codeBtn === 'Tab') {
-        textarea.value += '\t'
+        textarea.value += '\t';
       }
 
       if (codeBtn === 'Space') {
-        textarea.value += ' '
+        textarea.value += ' ';
       }
       if (codeBtn === 'Delete') {
         textarea.value = `${leftTextPart}${rightTextPart.slice(1)}`;
         textarea.selectionStart = cursorPosition;
         textarea.selectionEnd = cursorPosition;
       }
-
     }
   };
 
   window.addEventListener('keydown', (event) => {
-    if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
+    if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
       shiftPressed = true;
     }
 
@@ -117,18 +110,18 @@ export const workKeyboard = (keyButtons, language) => {
       ctrlPressed = true;
     }
 
-    addActiveClass(event.code, 'key-active')
+    addActiveClass(event.code, 'key-active');
     event.preventDefault();
     textarea.focus();
     outputKeyButton(event.code);
   });
 
   window.addEventListener('keyup', (event) => {
-    if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
+    if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
       shiftPressed = false;
     }
 
-    if (event.code === "CapsLock") {
+    if (event.code === 'CapsLock') {
       capsLok = !capsLok;
       if (capsLok) {
         addActiveClass(event.code, 'key-caps-lk');
@@ -158,7 +151,7 @@ export const workKeyboard = (keyButtons, language) => {
     });
 
     el.addEventListener('mouseup', (event) => {
-      if (event.target.innerText === "CapsLock") {
+      if (event.target.innerText === 'CapsLock') {
         capsLok = !capsLok;
         if (capsLok) {
           event.target.classList.add('key-caps-lk');
@@ -170,5 +163,3 @@ export const workKeyboard = (keyButtons, language) => {
     });
   });
 };
-
-
